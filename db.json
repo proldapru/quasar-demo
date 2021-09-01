@@ -1,0 +1,34 @@
+{
+  "tasks": [
+    {
+      "id": "db",
+      "name": "Администрирование БД",
+      "icon": "work",
+      "perm": [
+        {"user":"vitaly", "userName": "Виталий", "perm": "admin"},
+        {"user":"egor", "userName": "Егор", "perm": "denied"},
+        {"user":"olga", "userName": "Ольга", "perm": "oper"}
+      ]
+    },
+    {
+      "id": "map",
+      "name": "Настройка модуля картографии",
+      "icon": "map",
+      "perm": [
+        {"user":"vitaly", "userName": "Виталий", "perm": "admin"},
+        {"user":"egor", "userName": "Егор", "perm": "denied"},
+        {"user":"olga", "userName": "Ольга", "perm": "oper"}
+      ]
+    },
+    {
+      "id": "vg",
+      "name": "Работа с векторной графикой",
+      "icon": "favorite",
+      "perm": [
+        {"user":"vitaly", "userName": "Виталий", "perm": "admin"},
+        {"user":"egor", "userName": "Егор", "perm": "denied"},
+        {"user":"olga", "userName": "Ольга", "perm": "oper"}
+      ]
+    }
+  ]
+}
