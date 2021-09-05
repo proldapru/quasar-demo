@@ -38,7 +38,10 @@
       {"id": "admin", "name": "Администратор"}
     ]
   },
-  "mod": {
-    "permission": {"status": "Ok"}
-  }
+  "mod": [
+    {
+      "id":"permission",
+      "status": "Ok"
+    }
+  ]
 }
