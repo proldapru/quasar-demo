@@ -37,5 +37,8 @@
       {"id": "oper", "name": "Оператор"},
       {"id": "admin", "name": "Администратор"}
     ]
+  },
+  "mod": {
+    "permission": {"status": "Ok"}
   }
 }
