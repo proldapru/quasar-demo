@@ -21,7 +21,7 @@
       {"taskId": "map", "userId": "olga", "perm": "oper"},
       {"taskId": "vg", "userId": "vitaly", "perm": "oper"},
       {"taskId": "vg", "userId": "egor", "perm": "denied"},
-      {"taskId": "vg", "userId": "olga", "perm": "admin"},
+      {"taskId": "vg", "userId": "olga", "perm": "admin"}
     ],
 
     "permTypes": [
