@@ -1,43 +1,36 @@
 {
   "permissions": {
     "tasks": [
-      {
-        "id": "db",
-        "name": "Администрирование БД",
-        "icon": "work",
-        "perm": [
-          {"user":"vitaly", "userName": "Виталий", "perm": "admin"},
-          {"user":"egor", "userName": "Егор", "perm": "denied"},
-          {"user":"olga", "userName": "Ольга", "perm": "oper"}
-        ]
-      },
-      {
-        "id": "map",
-        "name": "Настройка модуля картографии",
-        "icon": "map",
-        "perm": [
-          {"user":"vitaly", "userName": "Виталий", "perm": "admin"},
-          {"user":"egor", "userName": "Егор", "perm": "denied"},
-          {"user":"olga", "userName": "Ольга", "perm": "oper"}
-        ]
-      },
-      {
-        "id": "vg",
-        "name": "Работа с векторной графикой",
-        "icon": "favorite",
-        "perm": [
-          {"user":"vitaly", "userName": "Виталий", "perm": "admin"},
-          {"user":"egor", "userName": "Егор", "perm": "denied"},
-          {"user":"olga", "userName": "Ольга", "perm": "oper"}
-        ]
-      }
+      {"id": "db", "name": "Администрирование БД", "icon": "work"},
+      {"id": "map", "name": "Настройка модуля картографии", "icon": "map"},
+      {"id": "vg", "name": "Работа с векторной графикой", "icon": "favorite"}
     ],
+
+    "users": [
+      {"id": "vitaly", "name": "Виталий", "icon": "man"},
+      {"id": "egor", "name": "Егор", "icon": "man"},
+      {"id": "olga", "name": "Ольга", "icon": "woman"}
+    ],
+
+    "perms": [
+      {"taskId": "db", "userId": "vitaly", "perm": "oper"},
+      {"taskId": "db", "userId": "egor", "perm": "denied"},
+      {"taskId": "db", "userId": "olga", "perm": "oper"},
+      {"taskId": "map", "userId": "vitaly", "perm": "admin"},
+      {"taskId": "map", "userId": "egor", "perm": "denied"},
+      {"taskId": "map", "userId": "olga", "perm": "oper"},
+      {"taskId": "vg", "userId": "vitaly", "perm": "oper"},
+      {"taskId": "vg", "userId": "egor", "perm": "denied"},
+      {"taskId": "vg", "userId": "olga", "perm": "admin"},
+    ],
+
     "permTypes": [
       {"id": "denied", "name": "Нет прав"},
       {"id": "oper", "name": "Оператор"},
       {"id": "admin", "name": "Администратор"}
     ]
   },
+
   "mod": [
     {
       "id":"permission",
