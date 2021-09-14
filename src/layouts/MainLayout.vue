@@ -67,24 +67,32 @@ export default defineComponent({
     return {
       linksList,
       leftDrawerOpen: false,
+      subHeader: ''
     }
+  },
+
+  provide() {
+    return {
+      mainLayout: {
+        setSubHeader: this.setSubHeader,
+      },
+    };
   },
 
   computed: {
     mainHeader() {
-      return this.$store.getters['app/getMainHeader']
+      return this.$route?.meta?.mainHeader || 'Quasar Framework Demo App'
     },
-
-    subHeader() {
-      return this.$store.getters['app/getSubHeader']
-    },
-
   },
 
   methods: {
     toggleLeftDrawer() {
-        this.leftDrawerOpen = !this.leftDrawerOpen
-      }
+      this.leftDrawerOpen = !this.leftDrawerOpen
+    },
+
+    setSubHeader(text) {
+      this.subHeader = text
+    },
   },
 })
 </script>

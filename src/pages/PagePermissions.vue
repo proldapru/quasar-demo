@@ -1,6 +1,5 @@
 <template>
   <q-page class="q-pa-lg">
-   <div class="row q-pa-sm text-h5">{{ mainHeader }}</div>
     <div class="row q-col-gutter-xs items-stretch">
       <div class="col col-3">
         <q-card>
@@ -30,7 +29,6 @@
 <script>
 import { defineComponent } from 'vue';
 import { Loading, Dialog } from 'quasar'
-// import { setAppHeader } from '../service.js';
 
 export default defineComponent({
   name: 'PagePermissions',
@@ -60,10 +58,6 @@ export default defineComponent({
   },
 
   computed: {
-    mainHeader() {
-      return this.$route.meta.mainHeader
-    },
-
     permObjectType() {
       return this.$route.meta.permObjectType
     },

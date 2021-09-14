@@ -1,7 +1,6 @@
 <template>
 <q-markup-table class="perm-grid">
   <thead class="text-bold">
-    <tr><th colspan="4">{{ subHeader }}</th></tr>
     <tr>
       <th class="text-left">{{ gridCaption }}</th>
       <th v-for="permType in permTypes" :key="permType.id" class="text-center">{{ permType.name }}</th>
@@ -29,9 +28,11 @@ export default defineComponent({
     permObjectId: {type: String, required: true},
   },
 
+  inject: ['mainLayout'],
+
   computed: {
     subHeader() {
-      return `${this.$route.meta.subHeader} ${this.permObject.name}`
+      return this.$route?.meta?.subHeader ? `${this.$route.meta.subHeader} ${this.permObject.name}` : ''
     },
  
     gridCaption() {
@@ -51,6 +52,15 @@ export default defineComponent({
     permTypes() {
       return this.$store.getters['permissions/permTypes'];
     },
+  },
+
+  watch: {
+    subHeader: {
+      immediate: true,
+      handler(newVal) {
+        this.mainLayout.setSubHeader(newVal)
+      },
+    }
   },
 })
 </script>

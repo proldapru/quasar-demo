@@ -1,7 +1,6 @@
 import { store } from 'quasar/wrappers'
 import { createStore } from 'vuex'
 
-import app from './module-app'
 import permissions from './module-permissions'
 
 /*
@@ -16,7 +15,6 @@ import permissions from './module-permissions'
 export default store(function (/* { ssrContext } */) {
   const Store = createStore({
     modules: {
-      app,
       permissions,
     },
 
