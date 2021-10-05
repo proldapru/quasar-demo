@@ -26,28 +26,23 @@
   </q-page>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
+<script lang="ts">
+import { defineComponent } from 'vue'
 import { Loading, Dialog } from 'quasar'
+import { IdentifiedObject } from '../store/module-permissions/state'
+
 
 export default defineComponent({
   name: 'PagePermissions',
 
-  preFetch ({ store, currentRoute /*, redirect, previousRoute, ssrContext, urlPath, publicPath*/ }) {
-    // setAppHeader(store, currentRoute)
+  preFetch ({ store /*, redirect, currentRoute, previousRoute, ssrContext, urlPath, publicPath*/ }) {
 
     if(!store.getters['permissions/permissionsLoaded']) {
       Loading.show({message: 'Загружаются данные с API'})
 
       return store.dispatch('permissions/fetchData').then(() => {
-/*        redirect({
-          name: 'taskPermissions',
-          params: {
-            permObjectId: store.getters['permissions/permissionsByTasks'][0].id,
-          },
-        })
-*/
-      }).catch(error => {
+        /* */
+      }).catch((error: {message: string}) => {
         /*  Dialog не работает =( */
         Dialog.create({ title: 'Сообщение', message: error.message }).onOk(() => { console.log('Dialog Ok pressed') })
         console.log(error.message)
@@ -58,11 +53,11 @@ export default defineComponent({
   },
 
   computed: {
-    permObjectType() {
-      return this.$route.meta.permObjectType
+    permObjectType(): string {
+      return this.$route?.meta?.permObjectType || ''
     },
 
-    permObjects() {
+    permObjects(): IdentifiedObject {
       return this.permObjectType ?
         this.$store.getters[`permissions/permissionsBy${
           this.permObjectType.charAt(0).toUpperCase() + this.permObjectType.slice(1)

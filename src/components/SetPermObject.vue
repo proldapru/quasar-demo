@@ -8,7 +8,7 @@
 
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -34,17 +34,16 @@ export default defineComponent({
   },
 
   watch: {
-    curPerm(newVal, oldVal) {
+    curPerm(newVal: string) {
       this.$store.dispatch('permissions/modifyPermission', {
         taskId: this.taskId,
         userId: this.userId,
-        perm: this.curPerm,
+        perm: newVal,
       }).then(()=>{
         this.$q.notify({
           message: 'Изменения применены',
           position: 'top-right',
           timeout: 2000,
-          //closeBtn: true,
         })
       })
 

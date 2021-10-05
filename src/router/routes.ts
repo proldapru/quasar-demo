@@ -1,8 +1,10 @@
-const routes = [
+import { RouteRecordRaw } from 'vue-router';
+
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'index',
-    redirect: (to) => ({ name: 'about' }),
+    redirect: () => ({ name: 'about' }),
     component: () => import('layouts/MainLayout.vue'),
     props: true,
     children: [

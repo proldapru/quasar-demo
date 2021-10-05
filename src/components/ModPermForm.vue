@@ -13,43 +13,61 @@
 </q-markup-table>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
 import SetPermObject from './SetPermObject.vue';
+import { IdentifiedObject } from '../store/module-permissions/state'
+
+interface MainLayoutProvidedMethod {
+  setSubHeader: (text: string) => void
+}
+
+interface MainLayoutProvided {
+  mainLayout: MainLayoutProvidedMethod
+}
 
 export default defineComponent({
   name: 'ModPermForm',
 
   components: {
-    SetPermObject,
+    SetPermObject
   },
 
   props: {
-    permObjectId: {type: String, required: true},
+    permObjectId: {type: String as PropType<string>, required: true},
   },
 
-  inject: ['mainLayout'],
+//  inject: ['mainLayout'],
+
+  inject: {
+      mainLayout: {
+      from: 'mainLayout',
+/*      default: () => ({
+        setSubHeader: (text: string): void => alert(text),
+      }),
+*/    },
+  },
 
   computed: {
-    subHeader() {
+    subHeader(): string {
       return this.$route?.meta?.subHeader ? `${this.$route.meta.subHeader} ${this.permObject.name}` : ''
     },
- 
-    gridCaption() {
-      return this.$route.meta.gridCaption
+
+    gridCaption(): string {
+      return this.$route?.meta?.gridCaption || ''
     },
 
-    permObjectType() {
-      return this.$route.meta.permObjectType
+    permObjectType(): string {
+      return this.$route?.meta?.permObjectType || ''
     },
 
-    permObject(){
+    permObject(): IdentifiedObject {
       return this.permObjectType ?
         this.$store.getters[`permissions/${this.permObjectType}Permissions`](this.permObjectId) :
         {}
     },
 
-    permTypes() {
+    permTypes(): IdentifiedObject {
       return this.$store.getters['permissions/permTypes'];
     },
   },
@@ -57,8 +75,8 @@ export default defineComponent({
   watch: {
     subHeader: {
       immediate: true,
-      handler(newVal) {
-        this.mainLayout.setSubHeader(newVal)
+      handler(newVal: string) {
+        (this as MainLayoutProvided).mainLayout.setSubHeader(newVal)
       },
     }
   },

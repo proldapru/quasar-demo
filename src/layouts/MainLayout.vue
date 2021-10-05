@@ -37,7 +37,7 @@
   </q-layout>
 </template>
 
-<script>
+<script lang="ts">
 const linksList = [
   {
     caption: 'Права по задачам',
@@ -58,7 +58,7 @@ const linksList = [
   },
 ];
 
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -74,8 +74,8 @@ export default defineComponent({
   provide() {
     return {
       mainLayout: {
-        setSubHeader: this.setSubHeader,
-      },
+        setSubHeader: (text: string): void => { this.setSubHeader(text) },
+      } as { setSubHeader: (text: string) => void; },
     };
   },
 
@@ -90,7 +90,7 @@ export default defineComponent({
       this.leftDrawerOpen = !this.leftDrawerOpen
     },
 
-    setSubHeader(text) {
+    setSubHeader(text: string) {
       this.subHeader = text
     },
   },
