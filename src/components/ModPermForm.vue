@@ -16,8 +16,10 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import SetPermObject from './SetPermObject.vue';
-import { IdentifiedObject } from '../store/module-permissions/state'
+import vuexModulePermissions from '../store/module-permissions';
+import { IdentifiedObject } from '../store/models'
 
+/*
 interface MainLayoutProvidedMethod {
   setSubHeader: (text: string) => void
 }
@@ -25,7 +27,7 @@ interface MainLayoutProvidedMethod {
 interface MainLayoutProvided {
   mainLayout: MainLayoutProvidedMethod
 }
-
+*/
 export default defineComponent({
   name: 'ModPermForm',
 
@@ -41,7 +43,7 @@ export default defineComponent({
 
   inject: {
       mainLayout: {
-      from: 'mainLayout',
+        from: 'mainLayout',
 /*      default: () => ({
         setSubHeader: (text: string): void => alert(text),
       }),
@@ -63,23 +65,27 @@ export default defineComponent({
 
     permObject(): IdentifiedObject {
       return this.permObjectType ?
-        this.$store.getters[`permissions/${this.permObjectType}Permissions`](this.permObjectId) :
-        {}
+        (this.permObjectType === 'task' ?
+          vuexModulePermissions.taskPermissions(this.permObjectId) :
+          vuexModulePermissions.userPermissions(this.permObjectId)) :
+      {id:'id', name:'name', perm:[]}
     },
 
-    permTypes(): IdentifiedObject {
-      return this.$store.getters['permissions/permTypes'];
+    permTypes(): IdentifiedObject[] | [] {
+      return vuexModulePermissions.permTypes;
     },
   },
 
+/*
   watch: {
     subHeader: {
       immediate: true,
       handler(newVal: string) {
-        (this as MainLayoutProvided).mainLayout.setSubHeader(newVal)
+        this.mainLayout.setSubHeader(newVal)
       },
     }
   },
+*/
 })
 </script>
 

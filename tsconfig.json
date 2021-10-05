@@ -1,6 +1,25 @@
 {
   "extends": "@quasar/app/tsconfig-preset",
   "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
     "baseUrl": "."
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+
 }

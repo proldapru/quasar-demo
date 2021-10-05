@@ -10,6 +10,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import vuexModulePermissions from '../store/module-permissions';
 
 export default defineComponent({
   name: 'SetPermObject',
@@ -29,27 +30,22 @@ export default defineComponent({
 
   computed: {
     permTypes() {
-      return this.$store.getters['permissions/permTypes'];
+      return vuexModulePermissions.permTypes;
     },
   },
 
   watch: {
-    curPerm(newVal: string) {
-      this.$store.dispatch('permissions/modifyPermission', {
-        taskId: this.taskId,
-        userId: this.userId,
-        perm: newVal,
-      }).then(()=>{
-        this.$q.notify({
-          message: 'Изменения применены',
-          position: 'top-right',
-          timeout: 2000,
+    curPerm(newVal: string): void {
+      vuexModulePermissions.modifyPermission({ taskId: this.taskId, userId: this.userId, perm: newVal })
+        .then(()=>{
+          this.$q.notify({
+            message: 'Изменения применены',
+            position: 'top-right',
+            timeout: 2000,
+          })
         })
-      })
-
     }
   },
-
 })
 	
 </script>
