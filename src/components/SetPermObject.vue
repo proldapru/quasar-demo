@@ -9,43 +9,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { Prop, Watch, Options, Vue } from 'vue-property-decorator';
 import vuexModulePermissions from '../store/module-permissions';
 
-export default defineComponent({
-  name: 'SetPermObject',
-
-  data() {
-    return {
-      curPerm: this.perm,
-    }
-  },
-
-  props: {
-    title: {type: String, required: true},
-    taskId: {type: String, required: true},
-    userId: {type: String, required: true},
-    perm: {type: String, required: true},
-  },
-
-  computed: {
-    permTypes() {
-      return vuexModulePermissions.permTypes;
-    },
-  },
-
-  watch: {
-    curPerm(newVal: string): void {
-      vuexModulePermissions.modifyPermission({ taskId: this.taskId, userId: this.userId, perm: newVal })
-        .then(()=>{
-          this.$q.notify({
-            message: 'Изменения применены',
-            position: 'top-right',
-            timeout: 2000,
-          })
-        })
-    }
-  },
+@Options({
+  name: 'SetPermObject'
 })
-	
+export default class SetPermObject extends Vue {
+  @Prop(String) readonly title!: string;
+  @Prop(String) readonly taskId!: string;
+  @Prop(String) readonly userId!: string;
+  @Prop(String) readonly perm!: string;
+
+  curPerm: string = this.perm;
+
+  get permTypes() {
+    return vuexModulePermissions.permTypes;
+  }
+
+  @Watch('curPerm')
+  onCurPermChanged(newVal: string) {
+    vuexModulePermissions.modifyPermission({ taskId: this.taskId, userId: this.userId, perm: newVal })
+      .finally(()=>{
+        this.$q.notify({
+          message: 'Изменения применены',
+          position: 'top-right',
+          timeout: 2000,
+        })
+      })
+  }
+}
 </script>

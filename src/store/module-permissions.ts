@@ -23,11 +23,11 @@ class Permissions extends VuexModule {
   }
 
   get permissionsByTasks(): IdentifiedObject[] {
-    if (this.permissions !== null) {
+    if(this.permissions !== null) {
       const localTasks = this.permissions.tasks.map((x) =>
         Object.assign({}, x)
       );
-      for (const t of localTasks) {
+      for(const t of localTasks) {
         t.perm = this.permissions?.perms
           .filter((p) => p.taskId === t.id)
           .map((x) =>
@@ -48,7 +48,7 @@ class Permissions extends VuexModule {
 
   get taskPermissions() {
     return (taskId: string): IdentifiedObject => {
-      if (this.permissions !== null) {
+      if(this.permissions !== null) {
         const localTask = Object.assign(
           {},
           this.permissions.tasks.find((x) => x.id === taskId)
@@ -72,11 +72,11 @@ class Permissions extends VuexModule {
   }
 
   get permissionsByUsers(): IdentifiedObject[] {
-    if (this.permissions !== null) {
+    if(this.permissions !== null) {
       const localUsers = this.permissions.users.map((x) =>
         Object.assign({}, x)
       );
-      for (const u of localUsers) {
+      for(const u of localUsers) {
         u.perm = this.permissions.perms
           .filter((p) => p.userId === u.id)
           .map((x) =>
@@ -97,7 +97,7 @@ class Permissions extends VuexModule {
 
   get userPermissions() {
     return (userId: string): IdentifiedObject => {
-      if (this.permissions !== null) {
+      if(this.permissions !== null) {
         const localUser = Object.assign(
           {},
           this.permissions.users.find((x) => x.id === userId)
@@ -128,18 +128,18 @@ class Permissions extends VuexModule {
 
   @Mutation
   modPermission(permObject: PermObject) {
-    if (this.permissions !== null) {
+    if(this.permissions !== null) {
       const permIndex = this.permissions.perms.findIndex(
         (x) => x.taskId === permObject.taskId && x.userId === permObject.userId
       );
-      if (permIndex) this.permissions.perms[permIndex].perm = permObject.perm;
+      if(~permIndex) this.permissions.perms[permIndex].perm = permObject.perm;
     }
   }
 
   @Action
   async modifyPermission(permObject: PermObject) {
     const status = await api.modifyPermission(permObject);
-    if (status === 'Ok') {
+    if(status === 'Ok') {
       this.modPermission(permObject);
     }
   }

@@ -27,14 +27,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { Loading, Dialog } from 'quasar';
+import { Options, Vue } from 'vue-property-decorator';
+import { Loading } from 'quasar';
 import vuexModulePermissions from '../store/module-permissions';
 import { IdentifiedObject } from '../store/models';
 
-export default defineComponent({
+@Options({
   name: 'PagePermissions',
-
   preFetch ({ /*store, redirect, currentRoute, previousRoute, ssrContext, urlPath, publicPath*/ }) {
 
     if(!vuexModulePermissions.permissionsLoaded) {
@@ -44,18 +43,17 @@ export default defineComponent({
         Loading.hide();
       });
     }
-  },
-
-  computed: {
-    permObjectType(): string {
-      return this.$route?.meta?.permObjectType || ''
-    },
-
-    permObjects(): IdentifiedObject[] | [] {
-      return this.permObjectType ?
-        (this.permObjectType === 'task' ? vuexModulePermissions.permissionsByTasks : vuexModulePermissions.permissionsByUsers) :
-      []
-    }
-  },
+  }
 })
+export default class PagePermissions extends Vue {
+  get permObjectType(): string {
+    return this.$route?.meta?.permObjectType || ''
+  }
+
+  get permObjects(): IdentifiedObject[] | [] {
+    return this.permObjectType ?
+      (this.permObjectType === 'task' ? vuexModulePermissions.permissionsByTasks : vuexModulePermissions.permissionsByUsers) :
+    []
+  }
+}
 </script>

@@ -58,41 +58,33 @@ const linksList = [
   },
 ];
 
-import { defineComponent } from 'vue'
-
-export default defineComponent({
+import { Provide, Options, Vue } from 'vue-property-decorator';
+@Options({
   name: 'MainLayout',
-
-  data() {
-    return {
-      linksList,
-      leftDrawerOpen: false,
-      subHeader: ''
-    }
-  },
-
-  provide() {
-    return {
-      mainLayout: {
-        setSubHeader: (text: string): void => { this.setSubHeader(text) },
-      } as { setSubHeader: (text: string) => void; },
-    };
-  },
-
-  computed: {
-    mainHeader() {
-      return this.$route?.meta?.mainHeader || 'Quasar Framework Demo App'
-    },
-  },
-
-  methods: {
-    toggleLeftDrawer() {
-      this.leftDrawerOpen = !this.leftDrawerOpen
-    },
-
-    setSubHeader(text: string) {
-      this.subHeader = text
-    },
-  },
+  mounted() {
+    console.log('mounted');
+    this.setSubHeader('mounted');
+  }
 })
+export default class MainLayout extends Vue {
+  linksList = linksList;
+  leftDrawerOpen = false;
+  subHeader = '';
+
+  @Provide({to: 'mainLayout'}) mainLayoutSetSubHeader = this.setSubHeader;
+
+  get mainHeader() {
+      return this.$route?.meta?.mainHeader || 'Quasar Framework Demo App'
+  }
+
+  toggleLeftDrawer() {
+    this.leftDrawerOpen = !this.leftDrawerOpen
+  }
+
+  setSubHeader(text: string) {
+    console.log(this.$options.name, text, this.subHeader);
+    this.subHeader = text;
+    console.log(this.$options.name, text, this.subHeader);
+  }
+}
 </script>

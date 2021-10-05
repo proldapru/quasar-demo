@@ -6,7 +6,7 @@
       <th v-for="permType in permTypes" :key="permType.id" class="text-center">{{ permType.name }}</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody v-if="permObject.perm">
     <set-perm-object v-for="curPerm in permObject.perm"
       :key="curPerm.userId + '_' + curPerm.taskId" v-bind="curPerm"/>
   </tbody>
@@ -14,79 +14,54 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { Prop, Options, Inject, Watch, Vue } from 'vue-property-decorator';
 import SetPermObject from './SetPermObject.vue';
 import vuexModulePermissions from '../store/module-permissions';
 import { IdentifiedObject } from '../store/models'
+import MainLayout from 'src/layouts/MainLayout.vue';
 
-/*
-interface MainLayoutProvidedMethod {
-  setSubHeader: (text: string) => void
-}
-
-interface MainLayoutProvided {
-  mainLayout: MainLayoutProvidedMethod
-}
-*/
-export default defineComponent({
+@Options({
   name: 'ModPermForm',
-
   components: {
     SetPermObject
-  },
-
-  props: {
-    permObjectId: {type: String as PropType<string>, required: true},
-  },
-
-//  inject: ['mainLayout'],
-
-  inject: {
-      mainLayout: {
-        from: 'mainLayout',
-/*      default: () => ({
-        setSubHeader: (text: string): void => alert(text),
-      }),
-*/    },
-  },
-
-  computed: {
-    subHeader(): string {
-      return this.$route?.meta?.subHeader ? `${this.$route.meta.subHeader} ${this.permObject.name}` : ''
-    },
-
-    gridCaption(): string {
-      return this.$route?.meta?.gridCaption || ''
-    },
-
-    permObjectType(): string {
-      return this.$route?.meta?.permObjectType || ''
-    },
-
-    permObject(): IdentifiedObject {
-      return this.permObjectType ?
-        (this.permObjectType === 'task' ?
-          vuexModulePermissions.taskPermissions(this.permObjectId) :
-          vuexModulePermissions.userPermissions(this.permObjectId)) :
-      {id:'id', name:'name', perm:[]}
-    },
-
-    permTypes(): IdentifiedObject[] | [] {
-      return vuexModulePermissions.permTypes;
-    },
-  },
-
-/*
-  watch: {
-    subHeader: {
-      immediate: true,
-      handler(newVal: string) {
-        this.mainLayout.setSubHeader(newVal)
-      },
-    }
-  },
-*/
+  }
 })
+
+export default class ModPermForm extends Vue {
+  @Prop(String) readonly permObjectId!: string;
+
+  @Inject({from: 'mainLayout'}) mainLayoutSetSubHeader!: (text: string) => void;
+
+  get mpfSubHeader(): string {
+    return this.$route?.meta?.subHeader ? `${this.$route.meta.subHeader} ${this.permObject.name}` : ''
+  }
+
+  get gridCaption(): string {
+    return this.$route?.meta?.gridCaption || ''
+  }
+
+  get permObjectType(): string {
+    return this.$route?.meta?.permObjectType || ''
+  }
+
+  get permObject(): IdentifiedObject {
+    return this.permObjectType ?
+      (this.permObjectType === 'task' ?
+        vuexModulePermissions.taskPermissions(this.permObjectId) :
+        vuexModulePermissions.userPermissions(this.permObjectId)) :
+    { id:'id', name:'name', perm:[{ taskId: 'someTask', userId: 'unknown', perm: 'denied' }] }
+  }
+
+  get permTypes(): IdentifiedObject[] | [] {
+    return vuexModulePermissions.permTypes;
+  }
+
+  @Watch('mpfSubHeader', { immediate: true })
+  onMpfSubHeaderChanged(newVal: string) {
+    console.log(this.$options.name, newVal);
+    this.mainLayoutSetSubHeader(newVal);
+  }
+}
 </script>
 
 <style scoped lang="scss">
