@@ -11,7 +11,7 @@
           @click="toggleLeftDrawer"
         />
         <q-toolbar-title>{{ mainHeader }}</q-toolbar-title>
-        <div>{{ subHeader }}</div>
+        <div v-html="subHeader" />
       </q-toolbar>
     </q-header>
 
@@ -58,33 +58,25 @@ const linksList = [
   },
 ];
 
-import { Provide, Options, Vue } from 'vue-property-decorator';
+import vuexModuleApplication from '../store/module-application';
+import { Options, Vue } from 'vue-property-decorator';
 @Options({
   name: 'MainLayout',
-  mounted() {
-    console.log('mounted');
-    this.setSubHeader('mounted');
-  }
 })
 export default class MainLayout extends Vue {
   linksList = linksList;
   leftDrawerOpen = false;
-  subHeader = '';
-
-  @Provide({to: 'mainLayout'}) mainLayoutSetSubHeader = this.setSubHeader;
 
   get mainHeader() {
       return this.$route?.meta?.mainHeader || 'Quasar Framework Demo App'
   }
 
-  toggleLeftDrawer() {
-    this.leftDrawerOpen = !this.leftDrawerOpen
+  get subHeader() {
+    return vuexModuleApplication.subHeader
   }
 
-  setSubHeader(text: string) {
-    console.log(this.$options.name, text, this.subHeader);
-    this.subHeader = text;
-    console.log(this.$options.name, text, this.subHeader);
+  toggleLeftDrawer() {
+    this.leftDrawerOpen = !this.leftDrawerOpen
   }
 }
 </script>

@@ -35,6 +35,7 @@ export default class SetPermObject extends Vue {
           message: 'Изменения применены',
           position: 'top-right',
           timeout: 2000,
+          closeBtn: '✖'
         })
       })
   }

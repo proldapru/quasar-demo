@@ -14,11 +14,11 @@
 </template>
 
 <script lang="ts">
-import { Prop, Options, Inject, Watch, Vue } from 'vue-property-decorator';
+import { Prop, Options, Watch, Vue } from 'vue-property-decorator';
 import SetPermObject from './SetPermObject.vue';
+import vuexModuleApplication from '../store/module-application';
 import vuexModulePermissions from '../store/module-permissions';
 import { IdentifiedObject } from '../store/models'
-import MainLayout from 'src/layouts/MainLayout.vue';
 
 @Options({
   name: 'ModPermForm',
@@ -30,10 +30,8 @@ import MainLayout from 'src/layouts/MainLayout.vue';
 export default class ModPermForm extends Vue {
   @Prop(String) readonly permObjectId!: string;
 
-  @Inject({from: 'mainLayout'}) mainLayoutSetSubHeader!: (text: string) => void;
-
-  get mpfSubHeader(): string {
-    return this.$route?.meta?.subHeader ? `${this.$route.meta.subHeader} ${this.permObject.name}` : ''
+  get subHeader(): string {
+    return this.$route?.meta?.subHeader && this.permObject.name ? `${this.$route.meta.subHeader} <em>${this.permObject.name}</em>` : ''
   }
 
   get gridCaption(): string {
@@ -48,7 +46,8 @@ export default class ModPermForm extends Vue {
     return this.permObjectType ?
       (this.permObjectType === 'task' ?
         vuexModulePermissions.taskPermissions(this.permObjectId) :
-        vuexModulePermissions.userPermissions(this.permObjectId)) :
+        vuexModulePermissions.userPermissions(this.permObjectId)
+      ) :
     { id:'id', name:'name', perm:[{ taskId: 'someTask', userId: 'unknown', perm: 'denied' }] }
   }
 
@@ -56,10 +55,10 @@ export default class ModPermForm extends Vue {
     return vuexModulePermissions.permTypes;
   }
 
-  @Watch('mpfSubHeader', { immediate: true })
-  onMpfSubHeaderChanged(newVal: string) {
-    console.log(this.$options.name, newVal);
-    this.mainLayoutSetSubHeader(newVal);
+  @Watch('subHeader', { immediate: true })
+  subHeaderChanged(newVal: string) {
+    // console.log(this.$options.name, newVal);
+    vuexModuleApplication.setSubHeader(newVal);
   }
 }
 </script>
