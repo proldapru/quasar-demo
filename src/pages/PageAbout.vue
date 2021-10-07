@@ -2,13 +2,19 @@
   <q-page class="q-pa-lg">
     <div class="row q-pa-sm text-h5">Моё первое приложение на Quasar</div>
     <div class="row q-pa-sm">
-     <p><strong>Version 0.0.3</strong>
+      <p><strong>Version 0.0.4</strong>
+        <ul>
+          <li>Mock DB реализован через локальный json-server (требуется запускать командой: <code class="codeblock">npm run json-server</code>).</li>
+          <li>Изменения прав пользователей сохраняются в файле <code class="codeblock">db.local.json</code>.</li>
+        </ul>
+      </p>
+      <p><strong>Version 0.0.3</strong>
         <ul>
           <li>Приложение переписано на TypeScript.</li>
           <li>Используются библиотеки Vue3 (3.2.4), Vuex4 (4.0.2), Quasar2 (2.0.4).</li>
-          <li>Используются классы и декораторы из модулей vue-property-decorator (10.0.0-rc.3), vue-class-component (8.0.0-rc1), vuex-module-decorators (1.0.1)</li>
+          <li>Используются классы и декораторы из модулей vue-property-decorator (10.0.0-rc.3), vue-class-component (8.0.0-rc1), vuex-module-decorators (1.0.1).</li>
         </ul>
-     </p>
+      </p>
       <p><strong>Промежуточные изыскания (commit 2ed7fc4)</strong>
         <ul>
           <li>Работа с Vuex переписана с использованием vuex-module-decorators.</li>
@@ -59,3 +65,9 @@ export default defineComponent({
   name: 'PageAbout',
 })
 </script>
+<style scoped>
+.codeblock {
+  padding: 0 5px;
+  background: #eee;
+}
+</style>

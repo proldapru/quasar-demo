@@ -1,13 +1,14 @@
 {
   "name": "quasar-demo",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Quasar Framework Demo App",
   "productName": "Quasar Framework Demo App",
   "author": "Egor Levintsa <proldapru@yandex.ru>",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "json-server": "json-server --watch db.local.json"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
@@ -27,7 +28,8 @@
     "@typescript-eslint/parser": "^4.16.1",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-vue": "^7.0.0"
+    "eslint-plugin-vue": "^7.0.0",
+    "json-server": "^0.17.0"
   },
   "browserslist": [
     "last 10 Chrome versions",

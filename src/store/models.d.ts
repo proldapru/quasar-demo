@@ -2,6 +2,7 @@ export interface PermObject {
   taskId: string;
   userId: string;
   perm: string;
+  id?: string;
   title?: string;
 }
 

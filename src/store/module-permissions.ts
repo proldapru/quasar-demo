@@ -8,7 +8,8 @@ import {
 } from 'vuex-module-decorators';
 import store from '.';
 import { PermissionsDataObject, IdentifiedObject, PermObject } from './models';
-import * as api from './api';
+// import * as api from './api-github';
+import * as api from './api-localhost';
 
 @Module({ dynamic: true, namespaced: true, store, name: 'Permissions' })
 class Permissions extends VuexModule {

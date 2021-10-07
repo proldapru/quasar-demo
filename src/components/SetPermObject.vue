@@ -16,6 +16,7 @@ import vuexModulePermissions from '../store/module-permissions';
   name: 'SetPermObject'
 })
 export default class SetPermObject extends Vue {
+  @Prop({default: '-1'}) readonly id!: string;
   @Prop(String) readonly title!: string;
   @Prop(String) readonly taskId!: string;
   @Prop(String) readonly userId!: string;
@@ -29,7 +30,7 @@ export default class SetPermObject extends Vue {
 
   @Watch('curPerm')
   onCurPermChanged(newVal: string) {
-    vuexModulePermissions.modifyPermission({ taskId: this.taskId, userId: this.userId, perm: newVal })
+    vuexModulePermissions.modifyPermission({ id: this.id, taskId: this.taskId, userId: this.userId, perm: newVal })
       .finally(()=>{
         this.$q.notify({
           message: 'Изменения применены',

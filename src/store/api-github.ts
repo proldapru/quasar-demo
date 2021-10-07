@@ -1,3 +1,9 @@
+/**
+ * Используется mock db на основе json-server через интерфейс,
+ * предоставляемый ресурсом https://my-json-server.typicode.com
+ * Файл db.json берётся из github-репозиторияю (поэтому readonly).
+ */
+
 import axios from 'axios';
 
 import { PermissionsDataObject, PermObject } from './models';
@@ -21,7 +27,7 @@ export async function fetchPermissionsData(): Promise<PermissionsDataObject> {
 export async function modifyPermission(
   permObject: PermObject
 ): Promise<SaveDataStatus> {
-  /* Нужен POST, но на https://my-json-server.typicode.com работае только GET =( */
+  /* Нужен POST, но на https://my-json-server.typicode.com работает только GET =( */
   console.log(permObject);
   const response = await API.get<ApiSaveDataStatus>(
     '/mod/permission' /* , permObject*/
